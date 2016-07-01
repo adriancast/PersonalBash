@@ -1,0 +1,68 @@
+·[AUTORES]
+
+Adrián Castellanos Zaragoza & Jeasson Montenegro
+
+·[COMANDOS MAKE]
+
+Los comandos son los siguientes:
+	$ make		Crea los codigos objetos necesarios.
+	$ make all	Crea los codigos objetos necesarios.
+	$ make shell	A partir de los codigos objeto crea un ejecutable.
+	$ make clean	Limpia todos los archivos generados con el make.
+
+·[ADVERTENCIA READLINE]
+
+Para el correcto uso de la shell es necesario tener instalada la libreria readline en el ordenador. Para instalarla debemos ejecutar la siguiente linea en la consola:
+
+	$ sudo apt-get install libreadline6 libreadline6-dev
+
+·[FUNCIONALIDADES SHELL]
+	
+Los comandos que hemos implementado son los siguientes:
+	*cd
+	*export
+	*source
+	*jobs
+	*help
+
+Los comandos restantes del sistema tambien pueden ser ejecutados desde la consola.
+
+**cd: Permite cambiar de directorio, el siguiente argumento es el directorio que queremos ir.
+
+**export: Permite añadir variables de entorno
+
+**source: Permite ejecutar comandos de consola desde un fichero.Seguidamente del comando indicaremos el fichero
+
+**jobs: Permite visionar los PIDS de los procesos que se ejecutan en segundo plano
+
+**help: Permite visualizar la lista de comandos propios implementados.
+
+**Redireccion a ficheros: La consola permite la redireccion a ficheros "comando">"fichero".
+			  EJ: printenv>env.txt, jobs>jobs.txt
+**Ejecucion en segundo plano: En los comandos del sistema es posible ejecutar en segundo plano si el último argumento es un '&'.
+
+·[FUNCIONALIDADES SHELL EXTRAS]
+
+**Colores: Durante el diseño de la shell hemos utilizado colores para resaltar ciertas salidas por pantalla. ATENCION: Si redireccionamos a un fichero una salida de la consola con colores apareceran los valores ANSI que utilizamos para dar color al texto, a demas del texto.
+
+		[31mNo Hay procesos en BackGround[0m
+
+**ReadLine: Hemos hecho uso de la libreria readline para facilitar la entrada de datos. El uso de esta libreria permite autocompletar con el tabulador además de moverse por el historial de comandos ejecutados con las teclas "up" y "down".
+
+**Saludo en el comando 'help': Cuando ejecutamos el comando 'help', saluda al usuario que utiliza la consola. La obtención del usuario se implementa mediante la funcion getenv("USER"). De esta forma conseguimos el usuario.
+
+**Implementación de la señal "Ctrl+C": Cuando se produce esta señal no se cierra la consola, sólo se finaliza el proceso que se este corriendo en foreground.
+
+·[IMPLEMENTACION SHELL]
+
+La implementación de la shell es un loop con las siguientes funciones:
+	
+	line = leerLinea();//Leemos la linea
+        args = separarLinea(line);//Separamos la linea en argumentos
+        status = ejecutar(args);//Ejecutamos las funciones propias o del sistema. Ejecutar tambien controla si finaliza la ejecucion de la shell con la variable 'status'
+
+**leerLinea(): Leemos la linea mediante la libreria readline y la añadimos al historial.7
+**separarLinea(line): Separamos la linea obtenida anteriormente en tokens mediante la funcion strtok
+**ejecutar(args): Recorremos nuestras funciones comparando si el comando que hemos introducido anteriormente esta definido, si lo esta lo ejecutamos pasandole los argumentos.
+En caso contrario ejecutaremos las funciones del sistema
+
